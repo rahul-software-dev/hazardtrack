@@ -31,8 +31,18 @@ players need independent synchronization and compositing calibration.
 - [Standards interpretations](docs/INTERPRETATIONS.md)
 - [Evaluation evidence](engine/eval/RESULTS.md)
 
-Historical evaluation/device evidence is preserved with its original provenance;
+Product evaluation/device evidence is preserved with its original provenance;
 this repository's CI independently tests the extracted library. No AWS handler,
 TV application or device acquisition tooling is included. Contract fixtures are
 fabricated examples, not evidence of analyzed media. The Python source is
 extracted from No Strobe-lem; the product pins this repository's release.
+
+The current hardening evaluation scores 325 synthetic/composite clips in all
+three profiles: zero missed hazards and zero false alarms, with 975/975 tracks
+verified. The full-film control is unadjudicated and excluded from accuracy
+scores. Source, implementation, parameters and measured VVD calibration hashes
+are in the results; these product corpus measurements are separate from this
+library's independent Linux CI.
+
+[The S8 determinism proof](engine/eval/s8_determinism.json) records two complete
+default product runs with byte-identical results and control traces.
