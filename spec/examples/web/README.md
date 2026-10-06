@@ -7,7 +7,7 @@ and unlocks its Play button only after verification checks. It downloads the
 whole video to keep the example small; production hosts should bind a trusted
 catalog/source checksum without buffering large movies in browser memory.
 
-`reader.js` is a portable 69-line metadata-track reader. Import
+`reader.js` is a portable 60-line metadata-track reader. Import
 `attachHazardTrack(video, overlay, trackUrl)` and cover the displayed video with
 an absolutely positioned overlay. It refuses failing/unresolved tracks, pauses
 on attach/disposal, and applies authoritative payload timing on every animation
