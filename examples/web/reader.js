@@ -3,7 +3,7 @@ export async function attachHazardTrack(video, overlay, url) {
   video.pause();
   const response = await fetch(url);
   if (!response.ok) throw new Error('HazardTrack download failed');
-  const payload = await response.text();
+  const payload = (await response.text()).replace(/\r\n/g, '\n');
   let track;
   if (payload.startsWith('WEBVTT')) {
     const blocks = payload.trim().split(/\r?\n\s*\r?\n/);
