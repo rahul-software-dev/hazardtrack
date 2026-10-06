@@ -280,3 +280,49 @@ FAIL events (or any Kids events) are rejected by the TV reader even when a
 sidecar carries a passes=true flag. Source detection and the S5 engine model
 remain unchanged. The disclaimer is a focusable scroll destination so a
 D-pad viewer can read the complete exact text.
+
+## S7 publication and deployment choices
+
+All three profiles must verify before a video is uploaded publicly or a ready
+status is committed. Catalog discovery uses ready statuses and listing-based
+conditional writes; publication order and ETag retries are product concurrency
+semantics, not broadcast rules. A download refused before its full source hash
+exists receives an explicitly unbound notification-derived rejection id.
+
+Lambda accepts at most 512 MiB encoded / 120 s video, with a separate decoded
+cache disk preflight. These limits bound this 10 GiB/900 s deployment; they are
+not limits of the format or claims that every eligible film finishes in time.
+S3 CORS applies at bucket scope; only public/* receives anonymous read access.
+A hard Lambda timeout cannot write a status and is diagnosed through logs/retry.
+
+Reference-library source/format authority is the public hazardtrack release.
+The product's infra lockfile pins that git tag; its container installs the
+CI-built release wheel. The local engine/spec remain an auditable development
+mirror, with original evaluation/calibration provenance. Root-source changes
+must be exported and released before changing the deployment dependency pin.
+
+Integer frame PTS times the filter's rational time base is used for decoding;
+ffmpeg's human-readable pts_time rounds differently across releases and moved
+exact one-second boundaries in Ubuntu CI. The cache version changes so rounded
+historical decoded timestamps are never silently reused. Detector thresholds
+and independent source truth are unchanged.
+
+## S8 hardening and submission
+
+- A frame-rate fraction with a zero denominator is malformed probe metadata;
+  it maps to DecodeError instead of escaping as ZeroDivisionError. Zero/negative
+  rates and nonfinite values remain rejected by the unchanged media contract.
+- Same-turn remote events can observe the prior React state. A synchronous seek
+  latch serializes them before rendering; premature/duplicate seeked events
+  cannot release the shield, and native seek exceptions retain the error cover.
+- HTTPS catalog media may be player-supported HLS URLs; accepting a catalog URL
+  is not evidence of HLS analysis or live HLS playback. The engine/Lambda ingest
+  still analyzes local MP4 inputs. Signed queries are retained; embedded userinfo,
+  fragments, whitespace and backslashes are refused by the asset boundary.
+- Original build-pack Devpost/demo language is a draft. Current copy states
+  simulated verification, an illustrative demo cue, natural-control uncertainty,
+  cloud/device limits and prior content-modification art. Unresolved tracks are
+  refused entirely by this reader; a diagnostic skip chip does not permit them.
+- Compatible transitive dependency fixes are pinned and revalidated. Remaining
+  advisories with no compatible upstream fix keep the security/release gate open;
+  neither framework downgrades nor offline audits establish a pass.
