@@ -1,0 +1,12 @@
+WEBVTT
+
+NOTE hazardtrack
+{"format":"hazardtrack","format_version":"1.0","profile":"kids","media":{"content_id":"demo","duration_s":12.0,"fps":24.0,"width":640,"height":360,"transfer":"sdr","source_sha256":"76b285a3ad17130adefbfa19f3aa9700f4c6152e181f8d5e7114fc17f1dd3a41"},"verifier":{"passes":true,"offsets_checked_s":[-0.26887499999999925,0.0,0.26887499999999925],"residual_events":[],"engine_version":"0.1.1","params_hash":"134f76ec2fe221ad3e34c239805112825d152f986a83517598307bf898f6ee94"},"generated_at":"2026-10-23T18:08:30.349352Z","stats":{"veiled_fraction_of_runtime":0.548611111111111,"mean_alpha":0.13860759493670888,"n_events_by_kind":{"luma_flash":1,"extended_flashing":1},"mean_delta_cd_m2":14.249207935363975},"unresolved_segments":[]}
+
+NOTE hazardtrack-events
+[{"id":"evt_0001","kind":"luma_flash","severity":"warn","t_start":3.8333333333333335,"t_end":6.625,"peak_changes_per_s":10,"peak_area_fraction":0.30377358490566037,"peak_delta_cd_m2":87.61350000000002,"regime":"absolute"},{"id":"evt_0002","kind":"extended_flashing","severity":"warn","t_start":7.875,"t_end":8.916666666666666,"peak_changes_per_s":8,"peak_area_fraction":0.389937106918239,"peak_delta_cd_m2":null,"regime":"absolute"}]
+
+veil_0001
+00:00:03.083 --> 00:00:09.667
+{"id":"veil_0001","t_on":3.5833333333333335,"t_off":9.166666666666666,"ramp_in_s":0.5,"ramp_out_s":0.5,"alpha":0.15000000000000002,"gray":0.5,"covers":["evt_0001","evt_0002"]}
+

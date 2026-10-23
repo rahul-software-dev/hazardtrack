@@ -1,0 +1,8 @@
+WEBVTT
+
+NOTE hazardtrack
+{"format":"hazardtrack","format_version":"1.0","profile":"local","media":{"content_id":"demo","duration_s":12.0,"fps":24.0,"width":640,"height":360,"transfer":"sdr","source_sha256":"76b285a3ad17130adefbfa19f3aa9700f4c6152e181f8d5e7114fc17f1dd3a41"},"verifier":{"passes":true,"offsets_checked_s":[-0.26887499999999925,0.0,0.26887499999999925],"residual_events":[],"engine_version":"0.1.1","params_hash":"d7a84ea89591a7758880e901cf24f0d83c10e4a5f2e0eb05dd7e7181b3290a1d"},"generated_at":"2026-10-23T18:07:13.731116Z","stats":{"veiled_fraction_of_runtime":0.0,"mean_alpha":0.0,"n_events_by_kind":{"extended_flashing":1},"mean_delta_cd_m2":0.0},"unresolved_segments":[]}
+
+NOTE hazardtrack-events
+[{"id":"evt_0001","kind":"extended_flashing","severity":"warn","t_start":7.875,"t_end":8.916666666666666,"peak_changes_per_s":8,"peak_area_fraction":0.389937106918239,"peak_delta_cd_m2":null,"regime":"absolute"}]
+

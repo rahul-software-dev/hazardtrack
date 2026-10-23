@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HazardTrack Live Demo</title>
+<meta name="description" content="HazardTrack: an open, verified timed-veil format for photosensitive viewers. Live web demo of No Strobe-lem.">
+<style>
+:root { --bg:#f5f8f7; --panel:#fff; --fg:#0f1b1f; --muted:#4c5d61; --line:#d5dfdd; --accent:#0b7a62; --soft:#dff3ec; --bad:#b3261e; --badsoft:#fbe3e1;
+  font: 17px/1.6 "Segoe UI", system-ui, -apple-system, sans-serif; color-scheme: light }
+@media (prefers-color-scheme: dark) { :root { --bg:#0f171c; --panel:#16222a; --fg:#e8f0ee; --muted:#a6b8b6; --line:#2b3b44; --accent:#8cf0d1; --soft:#173a33; --bad:#ff8c84; --badsoft:#3d1c1a; color-scheme: dark } }
+* { box-sizing: border-box }
+body { margin:0; background:var(--bg); color:var(--fg) }
+.wrap { max-width: 920px; margin: 0 auto; padding: 36px max(16px, env(safe-area-inset-right)) 64px max(16px, env(safe-area-inset-left)) }
+h1 { font-size: clamp(28px, 5vw, 40px); line-height:1.15; margin:0 0 8px; text-wrap: balance }
+h2 { font-size: 22px; margin: 40px 0 8px }
+.lede { color: var(--muted); font-size: 19px; max-width: 64ch; margin: 0 }
+.eyebrow { font: 600 13px ui-monospace, Menlo, monospace; letter-spacing:.08em; text-transform:uppercase; color: var(--accent) }
+.panel { background: var(--panel); border:1px solid var(--line); border-radius: 14px; padding: 16px; margin-top: 20px }
+.row { display:flex; flex-wrap:wrap; gap:10px; align-items:center }
+button { font: inherit; font-weight: 600; padding: 10px 18px; border-radius: 10px; border: 2px solid var(--line); background: var(--panel); color: var(--fg); cursor: pointer }
+button[aria-pressed="true"] { border-color: var(--accent); background: var(--soft) }
+button:disabled { opacity: .45; cursor: default }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+.stage { position: relative; background: #000; border-radius: 10px; overflow: hidden; margin-top: 14px; aspect-ratio: 16/9 }
+video { display:block; width:100%; height:100% }
+.veil { position:absolute; inset:0; background:#000; opacity:1; pointer-events:none }
+.meter { display:flex; gap:18px; flex-wrap:wrap; font: 14px ui-monospace, Menlo, monospace; color: var(--muted); margin-top: 10px }
+.meter b { color: var(--fg) }
+#status { margin-top: 10px; font-weight: 600 }
+#status.bad { color: var(--bad) }
+.note { font-size: 14.5px; color: var(--muted) }
+.grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 14px }
+.card { background: var(--panel); border:1px solid var(--line); border-radius: 12px; padding: 14px 16px }
+.card h3 { margin: 0 0 6px; font-size: 17px }
+.card p { margin: 0; font-size: 15px; color: var(--muted) }
+a { color: var(--accent) }
+footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted) }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">No Strobe-lem · HazardTrack live demo</p>
+  <h1>Captions for your eyes</h1>
+  <p class="lede">A video is analyzed once against the ITU-R BT.1702 broadcast flashing rules. Each hazard gets the gentlest gray veil that brings it within limits, the result is re-verified, and the plan ships as a small timed file next to the video. Any player can read it. This page is one of those players.</p>
+
+  <div class="panel">
+    <div class="row" role="group" aria-label="Viewing profile">
+      <span class="note">Profile:</span>
+      <button data-p="broadcast" aria-pressed="false">Broadcast</button>
+      <button data-p="local" aria-pressed="false">Local</button>
+      <button data-p="kids" aria-pressed="false">Kids</button>
+      <button id="play" disabled>Play / pause</button>
+      <button id="tamper">Try a tampered track</button>
+    </div>
+    <div class="stage"><video id="video" playsinline muted preload="metadata"></video><div id="veil" class="veil"></div></div>
+    <div class="meter"><span>time <b id="t">0.00 s</b></span><span>veil strength <b id="a">0.00</b></span><span>track <b id="p">none</b></span></div>
+    <p id="status">Choose a profile. Playback stays locked until the track is verified and bound to this exact video.</p>
+    <p class="note">Demo clip: a 12-second Big Buck Bunny excerpt with no failing flashes, so it is safe to watch. Its Broadcast and Local veil (3 to 7 s) is an illustrative cue; Kids veils the clip's two measured near-miss events. No raw hazardous footage is ever played here.</p>
+  </div>
+
+  <h2>What happens when you press a profile</h2>
+  <div class="grid">
+    <div class="card"><h3>1. Download and hash</h3><p>The page downloads the video and computes its SHA-256 in your browser.</p></div>
+    <div class="card"><h3>2. Bind and verify</h3><p>The HazardTrack must name that exact checksum and say its verifier passed. Otherwise playback is refused.</p></div>
+    <div class="card"><h3>3. Schedule the veil</h3><p>The 60-line reader drives a gray overlay from the video clock, with linear fades in and out.</p></div>
+  </div>
+
+  <h2>More</h2>
+  <div class="grid">
+    <div class="card"><h3><a href="analysis/report.html">Engine analysis report</a></h3><p>The real report for this clip: verification at −269, 0 and +269 ms, veil chart and detected events per profile.</p></div>
+    <div class="card"><h3><a href="https://github.com/rahulgunwanistudy-2005/No_Strobe_Lem">No Strobe-lem on GitHub</a></h3><p>The Fire TV (Vega OS) app, engine, AWS pipeline, evaluation: 0 missed hazards and 0 false alarms on 325 test clips.</p></div>
+    <div class="card"><h3><a href="https://github.com/rahul-software-dev/hazardtrack">HazardTrack on GitHub</a></h3><p>The open Apache 2.0 format, Python reference library, schema and this reader.</p></div>
+  </div>
+
+  <footer>No Strobe-lem is a viewing aid that reduces flashing according to published broadcast guidelines. It is not a medical device and cannot guarantee that content is safe for every person with photosensitive epilepsy.<br>Big Buck Bunny (2008) © Blender Foundation, CC-BY 3.0: 12-second excerpt, resized, audio removed, viewing overlay added.</footer>
+</div>
+<script type="module">
+import {attachHazardTrack} from './reader.js';
+const $ = id => document.getElementById(id);
+const video = $('video'), veil = $('veil'), play = $('play'), status = $('status');
+let cleanup, generation = 0, bytes;
+const say = (text, bad = false) => { status.textContent = text; status.className = bad ? 'bad' : ''; };
+async function videoBytes() {
+  if (!bytes) { const r = await fetch('demo.mp4'); if (!r.ok) throw new Error('Video download failed'); bytes = await r.arrayBuffer(); }
+  return bytes;
+}
+async function load(profile, tamper = false) {
+  const current = ++generation, previous = cleanup; cleanup = undefined;
+  play.disabled = true; video.pause(); previous?.(); veil.style.opacity = '1';
+  document.querySelectorAll('[data-p]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.p === profile)));
+  $('p').textContent = tamper ? 'tampered' : profile;
+  say('Checking the video checksum and track verification…');
+  try {
+    const [data, text] = await Promise.all([videoBytes(), fetch(`demo.${profile}.hzt.json`).then(r => r.text())]);
+    let track = JSON.parse(text);
+    if (tamper) track.verifier.passes = false;
+    const hash = [...new Uint8Array(await crypto.subtle.digest('SHA-256', data))].map(b => b.toString(16).padStart(2, '0')).join('');
+    if (hash !== track.media.source_sha256) throw new Error('Video checksum does not match the track');
+    if (current !== generation) return;
+    const url = URL.createObjectURL(new Blob([data], {type: 'video/mp4'}));
+    video.src = url;
+    const trackUrl = URL.createObjectURL(new Blob([JSON.stringify(track)], {type: 'application/json'}));
+    let detach;
+    try { detach = await attachHazardTrack(video, veil, trackUrl); } finally { URL.revokeObjectURL(trackUrl); }
+    if (current !== generation) { detach(); URL.revokeObjectURL(url); return; }
+    cleanup = () => { detach(); URL.revokeObjectURL(url); };
+    play.disabled = false;
+    say(`Verified ${profile} track bound to this video. Press Play.`);
+  } catch (e) { if (current === generation) say(`Playback refused: ${e.message}`, true); }
+}
+document.querySelectorAll('[data-p]').forEach(b => b.addEventListener('click', () => load(b.dataset.p)));
+$('tamper').addEventListener('click', () => load('broadcast', true));
+play.addEventListener('click', () => video.paused ? video.play() : video.pause());
+(function tick() { $('t').textContent = video.currentTime.toFixed(2) + ' s'; $('a').textContent = (+getComputedStyle(veil).opacity).toFixed(2); requestAnimationFrame(tick); })();
+</script>
+</body>
+</html>
